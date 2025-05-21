@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 public class Traverse {
-  public static void main(String[] args) {
+  public static void main(String[] args) 
+  {
     // See below site for visualization of this graph
     // https://auberonedu.github.io/graph-explore/graph_site/viz.html
     Vertex<Integer> v3  = new Vertex<>(3);
@@ -28,6 +29,63 @@ public class Traverse {
     v45.neighbors = new ArrayList<>(List.of(v23));
     v23.neighbors = new ArrayList<>(List.of());
     v67.neighbors = new ArrayList<>(List.of(v91));
+
+    System.out.println(sum(v3));
+    traverse(v3);
   }
+
+
+//instead of useing helper methods...we are using method overloads
+//they both have to return the same data type
+public static int sum(Vertex<Integer> current) 
+{
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    //returns from the second
+    int total = sum(current, visited);
+    return total;
+  }
+  public static int sum(Vertex<Integer> current, Set<Vertex<Integer>> visited) 
+  {
+    //if the vertex is in our set if not return 0
+    //second method goes through recurrsion
+    if(current == null || visited.contains(current)) return 0;
+    visited.add(current);
+    int total = 0;
+    total += current.data;
+    for(Vertex<Integer>neighbor : current.neighbors)
+    {
+      int neighborSum = sum(neighbor, visited);
+      total += neighborSum;
+    }
+    return total;
+  }
+
+
+
+
+
+
+
+  public static <T> void traverse(Vertex<T> current) 
+  {  
+    //create a set to keep track of what we visited 
+    Set<Vertex<T>> visited = new HashSet<>();
+    traverse(current, visited);
+  }
+  
+
+  public static <T> void traverse(Vertex<T> current, Set<Vertex<T>> visited) 
+  {   
+    if(current == null || visited.contains(current)) return;
+    
+    System.out.println(current.data);
+    visited.add(current);
+  
+    for(Vertex<T> neighbor : current.neighbors) 
+    {
+      traverse(neighbor, visited);
+    }
+  }
+
 
 }
